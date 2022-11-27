@@ -31,6 +31,7 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self._layer = PLAYER_LAYER
         self.image = game.player_image
         self.rect = self.image.get_rect()
         self.hit_rect = PLAYER_HIT_RECT
@@ -83,6 +84,7 @@ class Mob(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self._layer = MOB_LAYER
         self.image = game.Mob_image
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
@@ -136,6 +138,7 @@ class Bullet(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.bullets
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = game.Bullet_image
+        self._layer = BULLET_LAYER
         self.rect = self.image.get_rect()
         self.pos = vec(pos)
         self.hit_rect = self.rect
@@ -169,6 +172,7 @@ class Bullet(pg.sprite.Sprite):
 class MuzzleFlash(pg.sprite.Sprite):
     def __init__(self, game, pos):
         self.groups = game.all_sprites
+        self._layer = EFFECTS_LAYER
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         size = randint(20, 50)
