@@ -77,6 +77,10 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+    def add_health(self, amount):
+        self.health += amount
+        if self.health > PLAYER_HEALTH:
+            self.health = PLAYER_HEALTH     
 
 class Mob(pg.sprite.Sprite):
 
@@ -95,6 +99,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.center = self.pos
         self.rot = 0
         self.health = MOB_HEALTH
+   
 
     def avoid_mobs(self):
         for mob in self.game.mobs:
@@ -197,4 +202,16 @@ class Obstacle(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.rect.x = x
-        self.rect.y = y    
+        self.rect.y = y
+
+class Item(pg.sprite.Sprite):
+    def __init__(self, game, pos, type):
+        self.groups = game.all_sprites, game.items
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self._layer = ITEM_IMAGES
+        self.image = game.item_images[type]
+        self.rect = self.image.get_rect()
+        self.type = type
+        self.rect.center = pos
+        self.pos = pos

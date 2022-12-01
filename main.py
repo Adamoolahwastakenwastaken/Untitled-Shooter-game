@@ -12,7 +12,7 @@ def draw_player_health(surf, x, y, pct):
     BAR_LENGTH = 100
     BAR_HEIGHT = 20
     fill = pct * BAR_LENGTH
-    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
+    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT   )
     fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
     if pct > 0.6:
         col = GREEN
@@ -43,7 +43,10 @@ class Game:
         self.wall_image = pg.transform.scale(self.wall_image, (TILESIZE,TILESIZE))
         self.Mob_image = pg.image.load(path.join(img_folder, MOB_IMAGE)).convert_alpha()
         self.Bullet_image = pg.image.load(path.join(img_folder, BULLET)).convert_alpha()
+        self.item_images = {}
         self.Muzzle_images = []
+        for item in ITEM_IMAGES:
+            self.item_images[item] = pg.image.load(path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
         for images in MUZZLE_IMAGES:
             self.Muzzle_images.append(pygame.image.load(path.join(img_folder, images)).convert_alpha())
 
@@ -53,6 +56,7 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
+        self.items = pg.sprite.Group()
         # here lies code we dont use anymore :( rip old map system 2022-2022
         #for row, tiles in enumerate(self.map.data):
             #for col, tile in enumerate(tiles):
@@ -63,13 +67,19 @@ class Game:
                 #if tile == 'M':
                     #Mob(self,col,row) 
         for tile_object in self.map.tmxdata.objects:
+            obj_center = vec(tile_object.x + tile_object.width / 2,
+            tile_object.y + tile_object.height / 2)
+
             if tile_object.name == 'Player':
-                self.player = Player(self,tile_object.x,tile_object.y)
+                self.player = Player(self,obj_center.x, obj_center.y)
             if tile_object.name == 'Zombie':
-                Mob(self,tile_object.x,tile_object.y)      
+                Mob(self,obj_center.x, obj_center.y)      
             if tile_object.name == 'wall':
                 Obstacle(self,tile_object.x,tile_object.y,tile_object.width
-                ,tile_object.height)         
+                ,tile_object.height)
+            if tile_object.name in ['health']:
+                Item(self,obj_center,tile_object.name)
+
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False      
                     
@@ -88,6 +98,12 @@ class Game:
         sys.exit()
 
     def update(self):
+        # player hits items
+        hits = pg.sprite.spritecollide(self.player, self.items, False)
+        for hit in hits:
+            if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
+                hit.kill()
+                self.player.add_health(HEALTH_PACK_AMOUNT)
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
@@ -105,6 +121,7 @@ class Game:
         for hit in hits:
             hit.health -= GUN_DAMAGE
             hit.vel = vec(0, 0)
+            
 
 
     def draw_grid(self):
