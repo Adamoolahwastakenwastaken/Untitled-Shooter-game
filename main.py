@@ -12,7 +12,7 @@ def draw_player_health(surf, x, y, pct):
     BAR_LENGTH = 100
     BAR_HEIGHT = 20
     fill = pct * BAR_LENGTH
-    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT   )
+    outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
     if pct > 0.6:
         col = GREEN

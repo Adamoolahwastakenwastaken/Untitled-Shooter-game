@@ -2,6 +2,7 @@ import pygame as pg
 from Settings import *
 from tilemap import *
 from random import uniform, randint, choice
+import pytweening
 
 vec = pg.math.Vector2
 
@@ -215,3 +216,15 @@ class Item(pg.sprite.Sprite):
         self.type = type
         self.rect.center = pos
         self.pos = pos
+        self.tween = pytweening.easeInOutSine
+        self.step = 0
+        self.dir = 1 
+
+    def update(self):
+        #making cool epic gamer animation
+        offset = BOB_RANGE * (self.tween(self.step / BOB_RANGE) -0.5)
+        self.rect.centery = self.pos.y + offset * self.dir
+        self.step += BOB_SPEED
+        if self.step > BOB_RANGE:
+            self.step = 0
+            self.dir *= -1
