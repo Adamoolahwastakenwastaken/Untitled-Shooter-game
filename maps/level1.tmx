@@ -172,8 +172,8 @@
 </data>
  </layer>
  <objectgroup id="11" name="Obstacles">
-  <object id="87" name="Zombie" x="3008" y="64" width="64" height="64"/>
   <object id="77" name="Player" x="1920" y="448" width="64" height="64"/>
+  <object id="87" name="Zombie" x="3008" y="64" width="64" height="64"/>
   <object id="79" name="wall" x="640" y="1216" width="832" height="64"/>
   <object id="80" name="wall" x="1792" y="1216" width="768" height="64"/>
   <object id="81" name="wall" x="2560" y="1280" width="64" height="640"/>
