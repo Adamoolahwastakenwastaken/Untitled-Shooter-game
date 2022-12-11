@@ -57,6 +57,8 @@ MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
                   'whitePuff18.png']
 FLASH_DURATION = 50
 
+SPLAT = "splat.png"
+
 # Layers
 WALL_LAYER = 1
 PLAYER_LAYER = 2
