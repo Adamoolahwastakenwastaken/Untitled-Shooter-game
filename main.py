@@ -1,7 +1,3 @@
-# KidsCanCode - Game Development with Pygame video series
-# Tile-based game - Part 18
-# Sound Effects
-# Video link: https://youtu.be/vzJ0WG2LSYw
 import pygame as pg
 import sys
 from random import choice, random
